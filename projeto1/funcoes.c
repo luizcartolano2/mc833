@@ -5,11 +5,6 @@
 #include <string.h>
 #include "funcoes.h"
 
-int main(int argc, char const *argv[]) {
-    /* code */
-    return 0;
-}
-
 int retorna_formandos_curso(perfil* perfils_array, char mensagem[], char* curso) {
     return -1;
 }

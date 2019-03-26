@@ -14,10 +14,12 @@
 #include <arpa/inet.h>
 #include <sys/wait.h>
 #include <signal.h>
+#include "funcoes.h"
 
 #define PORT "3490"  // the port users will be connecting to
 
 #define BACKLOG 10     // how many pending connections queue will hold
+#define MAXPERFIL 10  // quantos perfis o DB aguenta
 
 void sigchld_handler(int s)
 {
@@ -40,11 +42,6 @@ void *get_in_addr(struct sockaddr *sa)
     return &(((struct sockaddr_in6*)sa)->sin6_addr);
 }
 
-typedef struct informacoes{
-    char nome[256];
-    int idade;
-} informacoes;
-
 int main(void)
 {
     int sockfd, new_fd;  // listen on sock_fd, new connection on new_fd
@@ -55,11 +52,52 @@ int main(void)
     int yes=1;
     char s[INET6_ADDRSTRLEN];
     int rv;
-    informacoes* cabra = malloc(sizeof(informacoes));
+    perfil* database = malloc(MAXPERFIL * sizeof(perfil));
 
-    strcpy(cabra->nome, "Cabra");
-    //cabra.nome = "Cabra";
-    cabra->idade = 10;
+    strcpy(database[0].email, "maria_silva@gmail.com");
+    strcpy(database[0].nome, "Maria");
+    strcpy(database[0].sobrenome, "Silva");
+    strcpy(database[0].foto, "/usr/semfoto");
+    strcpy(database[0].residencia, "Campinas");
+    strcpy(database[0].formacaoacad, "Ciência da Computação");
+    strcpy(database[0].habilidades, "Análise de Dados, Internet das Coisas, Computação em Nuvem");
+    strcpy(database[0].experienciaprof, "Estágio de 1 ano na Empresa X, onde trabalhei como analista de dados\nTrabalhei com IoT e Computação em Nuvem por 5 anos na Empresa Y");
+
+    strcpy(database[1].email, "luiz_cartolano@gmail.com");
+    strcpy(database[1].nome, "Luiz");
+    strcpy(database[1].sobrenome, "Cartolano");
+    strcpy(database[1].foto, "/usr/semfoto");
+    strcpy(database[1].residencia, "Campinas");
+    strcpy(database[1].formacaoacad, "Engenharia de Computação");
+    strcpy(database[1].habilidades, "Parecer o Dorinha, Salva animais exceto patos, Superacademico");
+    strcpy(database[1].experienciaprof, "Conpec empresa júnior na area de qualidade salvando o dia\nEstágio no Itaú juntando dinheiro pro Amoedo 30");
+
+    strcpy(database[2].email, "gabrielaffonso32@hotmail.com");
+    strcpy(database[2].nome, "Gabriel");
+    strcpy(database[2].sobrenome, "Feitosa");
+    strcpy(database[2].foto, "/usr/semfoto");
+    strcpy(database[2].residencia, "Fortaleza");
+    strcpy(database[2].formacaoacad, "Engenharia de Computação");
+    strcpy(database[2].habilidades, "Caprinocultura, joga LoL muito bem, manja de animes");
+    strcpy(database[2].experienciaprof, "Conpec empresa júnior como gerente de projetos desviando de balas que deixaram pra mim");
+
+    strcpy(database[3].email, "victor_henrique@gmail.com");
+    strcpy(database[3].nome, "Victor");
+    strcpy(database[3].sobrenome, "Henrique");
+    strcpy(database[3].foto, "/usr/semfoto");
+    strcpy(database[3].residencia, "Campinas");
+    strcpy(database[3].formacaoacad, "Física");
+    strcpy(database[3].habilidades, "Capaz de acelerar partículas com as proprias maos");
+    strcpy(database[3].experienciaprof, "Quarteto fantástico\nIncríveis\nVingadores");
+
+    strcpy(database[4].email, "flavia.brtlt@gmail.com");
+    strcpy(database[4].nome, "Flávia");
+    strcpy(database[4].sobrenome, "Bertoletti");
+    strcpy(database[4].foto, "/usr/semfoto");
+    strcpy(database[4].residencia, "Socorro");
+    strcpy(database[4].formacaoacad, "Turismo");
+    strcpy(database[4].habilidades, "Sabe todas as trilhas de socorro, rafting, skydiving");
+    strcpy(database[4].experienciaprof, "Full time como guia turistica de esportes radicais\nCEO da empresa `RotaryClub Radical`");
 
     memset(&hints, 0, sizeof hints);
     hints.ai_family = AF_UNSPEC;
