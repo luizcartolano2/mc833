@@ -160,3 +160,9 @@ _deps
 ._.DS_Store
 **/.DS_Store
 **/._.DS_Store
+
+**/.idea/codeStyles/Project.xml
+**/.idea/misc.xml
+**/.idea/modules.xml
+**/.idea/projeto1.iml
+**/CMakeLists.txt
