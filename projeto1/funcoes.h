@@ -1,6 +1,8 @@
 #ifndef FUNCOES_H
 #define FUNCOES_H
 
+#define MAXPERFIL 10
+
 // struct para armazenar os dados do perfil
 typedef struct perfil {
     char email[100];
@@ -83,5 +85,7 @@ int retorna_perfis(perfil* perfils_array, int num_perfis, char mensagem[]);
  *  0 caso não haja erro.
  */
 int retorna_perfil(perfil* perfils_array, int num_perfis, char mensagem[], char* email);
+
+void preencheDB(perfil* database);
 
 #endif
