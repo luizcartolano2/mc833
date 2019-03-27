@@ -5,30 +5,6 @@
 #include <string.h>
 #include "funcoes.h"
 
-
-int main() {
-    perfil* database = malloc(MAXPERFIL * sizeof(perfil));
-    char mensagem[3000];
-    char mensagem2[300];
-
-
-    preencheDB(database);
-    strcpy(mensagem, "");
-
-//    for (int i=0; i<MAXPERFIL; i++) {
-//        printf("%s\n", database[i].nome);
-//    }
-
-//    retorna_formandos_curso(database, MAXPERFIL, mensagem, "Engenharia de Computação");
-//    retorna_habilidades_cidade(database, MAXPERFIL, mensagem, "Campinas")
-//    acrescenta_experiencia_perfil(database, MAXPERFIL, "pipoca", "victor_henrique@gmail.com");
-//    retorna_experiencia_perfil(database, MAXPERFIL, mensagem2, "victor_henrique@gmail.com");
-//    retorna_perfis(database, MAXPERFIL, mensagem);
-    retorna_perfil(database, MAXPERFIL, mensagem, "maria_silva@gmail.com");
-    printf("%s", mensagem);
-    return 0;
-}
-
 int retorna_formandos_curso(perfil* perfils_array, int num_perfis, char mensagem[], char* curso) {
     for (int i=0; i<num_perfis; i++){
         if (strcmp(perfils_array[i].formacaoacad, curso) == 0) {
@@ -54,21 +30,25 @@ int retorna_habilidades_cidade(perfil* perfils_array, int num_perfis, char mensa
 }
 
 
-int acrescenta_experiencia_perfil(perfil* perfils_array, int num_perfis, char* experiencia, char* email) {
+int acrescenta_experiencia_perfil(perfil* perfils_array, int num_perfis, int k, char* email) {
+    printf("%s\n",email);
     for (int i=0; i<num_perfis; i++){
         if (strcmp(perfils_array[i].email, email) == 0) {
             strcat(perfils_array[i].experienciaprof, "\n");
-            strcat(perfils_array[i].experienciaprof, experiencia);
+            strcat(perfils_array[i].experienciaprof, email+k+1);
+            printf("%s\n",email+k);
+            printf("%s\n", perfils_array[i].experienciaprof);
+            return 1;
         }
-
     }
-    return 1;
+    return 0;
 }
 
 
 int retorna_experiencia_perfil(perfil* perfils_array, int num_perfis, char mensagem[], char* email) {
     for (int i=0; i<num_perfis; i++){
         if (strcmp(perfils_array[i].email, email) == 0) {
+            printf("%s\n", perfils_array[i].experienciaprof);
             strcat(mensagem, perfils_array[i].experienciaprof);
             strcat(mensagem, "\n");
         }

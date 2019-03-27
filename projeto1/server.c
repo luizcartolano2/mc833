@@ -17,7 +17,7 @@
 #include "funcoes.h"
 
 #define PORT "3490"  // the port users will be connecting to
-
+#define CLIENT_COMMAND_SIZE 203
 #define BACKLOG 10     // how many pending connections queue will hold
 #define MAXPERFIL 10  // quantos perfis o DB aguenta
 
@@ -166,17 +166,49 @@ int main(void)
                   get_in_addr((struct sockaddr *)&their_addr),
                   s, sizeof s);
         printf("server: got connection from %s\n", s);
-
+        int i = 1;
         if (!fork()) { // this is the child process
             close(sockfd); // child doesn't need the listener
+
+            char client_command[CLIENT_COMMAND_SIZE];
             char message[1200];
-            strcpy(message, "1maria_silva@gmail.comMariaSilvaFotoCampinasCiência da ComputaçãoAnálise de Dados, Internet das Coisas, Computação em Nuvem2Estágio de 1 ano na Empresa X, onde trabalhei como analista de dadosTrabalhei com IoT e Computação em Nuvem por 5 anos na Empresa Y2luiz_cartolano@gmail.comLuizartolanoFotoCampinasEngenharia de ComputaçãoParecer o Dorinha, Salva animais exceto patos, Superacademico2Conpec empresa júnior na area de qualidade salvando o diaEstágio no Itaújuntandodinheiro pro Amoedo 303gabrielaffonso32@hotmail.comGabrielFeitosaFotoFortalezaEngenharia de ComputaçãoCaprinocultura, joga LoL muito bem, manja de animes1Conpec empresa júnior como gerente de projetos desviando de balas que deixaram pra mim4victor_henrique@gmail.comVictorHenriqueFotoCampinasFísicaCapaz de acelerar partículas com as proprias maos3Quarteto fantásticoIncríveisVingadores5flavia.brtlt@gmail.comFláviaBertolettiFotoSocorroTurismoSabe todas as trilhas desocorro,rafting, skydiving2Full time como guia turistica de esportes radicaisCEO da empresa RotaryClub Radical");
+
+            memset(message, '\0', 1200*sizeof(char));
+
+            recv(new_fd, client_command, CLIENT_COMMAND_SIZE - 1, 0);
+            if (client_command[0] == '1')
+            {
+                i++;
+                retorna_formandos_curso(database, MAXPERFIL, message, client_command+1);
+            }
+            else if(client_command[0] == '2')
+            {
+                retorna_habilidades_cidade(database, MAXPERFIL, message, client_command+1);
+            }
+            else if(client_command[0] == '3')
+            {
+                int k = 0;
+                while (client_command[k] != '\n') k++;
+                client_command[k] = '\0';
+                if (acrescenta_experiencia_perfil(database, MAXPERFIL, k-1 , client_command+1))
+                    strcpy(message, "OK!");
+                else
+                    strcpy(message, "DEU MERDA!");
+            }
+            else if(client_command[0] == '4')
+            {
+                retorna_experiencia_perfil(database, MAXPERFIL, message, client_command+1);
+                printf("%s\n",database[2].experienciaprof);
+                printf("%s\n",message);
+            }
+            printf("%d\n",i);
             if (send(new_fd, message, 1200, 0) == -1)
                 perror("send");
             close(new_fd);
             exit(0);
         }
         close(new_fd);  // parent doesn't need this
+        printf("%d\n",i);
     }
 
     return 0;
