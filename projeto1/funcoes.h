@@ -50,7 +50,7 @@ int retorna_habilidades_cidade(perfil* perfils_array, int num_perfis, char mensa
  *  -1 caso haja erro na atualizacao
  *  0 caso não haja erro.
  */
-int acrescenta_experiencia_perfil(perfil* perfils_array, int num_perfis, char* experiencia, char* email);
+int acrescenta_experiencia_perfil(perfil* perfils_array, int num_perfis, int k, char* email);
 
 /*
  * Argumentos:
@@ -88,5 +88,9 @@ int retorna_perfis(perfil* perfils_array, int num_perfis, char mensagem[]);
 int retorna_perfil(perfil* perfils_array, int num_perfis, char mensagem[], char* email);
 
 void preencheDB(perfil* database);
-void writeToFile(perfil* database);
+
+void handle_client_option(perfil* database, int maxperfil, char message[], char* client_command);
+
+int send_all(int socket, void *buffer, size_t length);
+
 #endif
