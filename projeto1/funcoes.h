@@ -12,6 +12,7 @@ typedef struct perfil {
     char residencia[30];
     char formacaoacad[50];
     char habilidades[300];
+    int n_experienciaprof;
     char experienciaprof[400];
 } perfil;
 
@@ -87,5 +88,5 @@ int retorna_perfis(perfil* perfils_array, int num_perfis, char mensagem[]);
 int retorna_perfil(perfil* perfils_array, int num_perfis, char mensagem[], char* email);
 
 void preencheDB(perfil* database);
-
+void writeToFile(perfil* database);
 #endif

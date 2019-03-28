@@ -105,7 +105,6 @@ int main(void)
     }
 
     printf("server: waiting for connections...\n");
-
     while(1) {  // main accept() loop
         sin_size = sizeof their_addr;
         new_fd = accept(sockfd, (struct sockaddr *)&their_addr, &sin_size);
@@ -121,6 +120,10 @@ int main(void)
 
         if (!fork()) { // this is the child process
             close(sockfd); // child doesn't need the listener
+            char cabra[100];
+            memset(cabra, '\0', sizeof(cabra));
+            recv(new_fd, cabra, 99, 0);
+            printf("%s\n", cabra);
             if (send(new_fd, "Hello, world!", 13, 0) == -1)
                 perror("send");
             close(new_fd);

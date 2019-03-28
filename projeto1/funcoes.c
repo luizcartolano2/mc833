@@ -6,29 +6,6 @@
 #include "funcoes.h"
 
 
-int main() {
-    perfil* database = malloc(MAXPERFIL * sizeof(perfil));
-    char mensagem[3000];
-    char mensagem2[300];
-
-
-    preencheDB(database);
-    strcpy(mensagem, "");
-
-//    for (int i=0; i<MAXPERFIL; i++) {
-//        printf("%s\n", database[i].nome);
-//    }
-
-//    retorna_formandos_curso(database, MAXPERFIL, mensagem, "Engenharia de Computação");
-//    retorna_habilidades_cidade(database, MAXPERFIL, mensagem, "Campinas")
-//    acrescenta_experiencia_perfil(database, MAXPERFIL, "pipoca", "victor_henrique@gmail.com");
-//    retorna_experiencia_perfil(database, MAXPERFIL, mensagem2, "victor_henrique@gmail.com");
-//    retorna_perfis(database, MAXPERFIL, mensagem);
-    retorna_perfil(database, MAXPERFIL, mensagem, "maria_silva@gmail.com");
-    printf("%s", mensagem);
-    return 0;
-}
-
 int retorna_formandos_curso(perfil* perfils_array, int num_perfis, char mensagem[], char* curso) {
     for (int i=0; i<num_perfis; i++){
         if (strcmp(perfils_array[i].formacaoacad, curso) == 0) {
@@ -157,51 +134,86 @@ int retorna_perfil(perfil* perfils_array, int num_perfis, char mensagem[], char*
     return -1;
 }
 
+void writeToFile(perfil* database)
+{
+    FILE *fp = fopen("db", "w");
+    if (fp == NULL)
+    {
+        perror("Erro ao tentar abrir db\n");
+        exit(1);
+    }
+    char *filestring = malloc(MAXPERFIL*sizeof(perfil));
+    memset(filestring, '\0', MAXPERFIL*sizeof(perfil));
+    for (int i = 0; i < 5; i++)
+    {
+        strcat(filestring, database[i].email);
+        strcat(filestring, database[i].nome);
+        strcat(filestring, database[i].sobrenome);
+        strcat(filestring, database[i].foto);
+        strcat(filestring, database[i].residencia);
+        strcat(filestring, database[i].formacaoacad);
+        strcat(filestring, database[i].habilidades);
+        char aux[3];
+        aux[0] = database[i].n_experienciaprof + '0';
+        aux[1] = '\n';
+        aux[2] = '\0';
+        strcat(filestring, aux);
+        strcat(filestring, database[i].experienciaprof);
+    }
+    fputs(filestring, fp);
+    fclose(fp);
+}
 
 void preencheDB(perfil* database) {
 
-    strcpy(database[0].email, "maria_silva@gmail.com");
-    strcpy(database[0].nome, "Maria");
-    strcpy(database[0].sobrenome, "Silva");
-    strcpy(database[0].foto, "/usr/semfoto");
-    strcpy(database[0].residencia, "Campinas");
-    strcpy(database[0].formacaoacad, "Ciência da Computação");
-    strcpy(database[0].habilidades, "Análise de Dados, Internet das Coisas, Computação em Nuvem");
-    strcpy(database[0].experienciaprof, "Estágio de 1 ano na Empresa X, onde trabalhei como analista de dados\nTrabalhei com IoT e Computação em Nuvem por 5 anos na Empresa Y");
+    strcpy(database[0].email, "maria_silva@gmail.com\n");
+    strcpy(database[0].nome, "Maria\n");
+    strcpy(database[0].sobrenome, "Silva\n");
+    strcpy(database[0].foto, "/usr/semfoto\n");
+    strcpy(database[0].residencia, "Campinas\n");
+    strcpy(database[0].formacaoacad, "Ciência da Computação\n");
+    strcpy(database[0].habilidades, "Análise de Dados, Internet das Coisas, Computação em Nuvem\n");
+    database[0].n_experienciaprof = 2;
+    strcpy(database[0].experienciaprof, "Estágio de 1 ano na Empresa X, onde trabalhei como analista de dados\nTrabalhei com IoT e Computação em Nuvem por 5 anos na Empresa Y\n");
 
-    strcpy(database[1].email, "luiz_cartolano@gmail.com");
-    strcpy(database[1].nome, "Luiz");
-    strcpy(database[1].sobrenome, "Cartolano");
-    strcpy(database[1].foto, "/usr/semfoto");
-    strcpy(database[1].residencia, "Campinas");
-    strcpy(database[1].formacaoacad, "Engenharia de Computação");
-    strcpy(database[1].habilidades, "Parecer o Dorinha, Salva animais exceto patos, Superacademico");
-    strcpy(database[1].experienciaprof, "Conpec empresa júnior na area de qualidade salvando o dia\nEstágio no Itaú juntando dinheiro pro Amoedo 30");
+    strcpy(database[1].email, "luiz_cartolano@gmail.com\n");
+    strcpy(database[1].nome, "Luiz\n");
+    strcpy(database[1].sobrenome, "Cartolano\n");
+    strcpy(database[1].foto, "/usr/semfoto\n");
+    strcpy(database[1].residencia, "Campinas\n");
+    strcpy(database[1].formacaoacad, "Engenharia de Computação\n");
+    strcpy(database[1].habilidades, "Parecer o Dorinha, Salva animais exceto patos, Superacademico\n");
+    database[1].n_experienciaprof = 2;
+    strcpy(database[1].experienciaprof, "Conpec empresa júnior na area de qualidade salvando o dia\nEstágio no Itaú juntando dinheiro pro Amoedo 30\n");
 
-    strcpy(database[2].email, "gabrielaffonso32@hotmail.com");
-    strcpy(database[2].nome, "Gabriel");
-    strcpy(database[2].sobrenome, "Feitosa");
-    strcpy(database[2].foto, "/usr/semfoto");
-    strcpy(database[2].residencia, "Fortaleza");
-    strcpy(database[2].formacaoacad, "Engenharia de Computação");
-    strcpy(database[2].habilidades, "Caprinocultura, joga LoL muito bem, manja de animes");
-    strcpy(database[2].experienciaprof, "Conpec empresa júnior como gerente de projetos desviando de balas que deixaram pra mim");
+    strcpy(database[2].email, "gabrielaffonso32@hotmail.com\n");
+    strcpy(database[2].nome, "Gabriel\n");
+    strcpy(database[2].sobrenome, "Feitosa\n");
+    strcpy(database[2].foto, "/usr/semfoto\n");
+    strcpy(database[2].residencia, "Fortaleza\n");
+    strcpy(database[2].formacaoacad, "Engenharia de Computação\n");
+    strcpy(database[2].habilidades, "Caprinocultura, joga LoL muito bem, manja de animes\n");
+    database[2].n_experienciaprof = 1;
+    strcpy(database[2].experienciaprof, "Conpec empresa júnior como gerente de projetos desviando de balas que deixaram pra mim\n");
 
-    strcpy(database[3].email, "victor_henrique@gmail.com");
-    strcpy(database[3].nome, "Victor");
-    strcpy(database[3].sobrenome, "Henrique");
-    strcpy(database[3].foto, "/usr/semfoto");
-    strcpy(database[3].residencia, "Campinas");
-    strcpy(database[3].formacaoacad, "Física");
-    strcpy(database[3].habilidades, "Capaz de acelerar partículas com as proprias maos");
-    strcpy(database[3].experienciaprof, "Quarteto fantástico\nIncríveis\nVingadores");
+    strcpy(database[3].email, "victor_henrique@gmail.com\n");
+    strcpy(database[3].nome, "Victor\n");
+    strcpy(database[3].sobrenome, "Henrique\n");
+    strcpy(database[3].foto, "/usr/semfoto\n");
+    strcpy(database[3].residencia, "Campinas\n");
+    strcpy(database[3].formacaoacad, "Física\n");
+    strcpy(database[3].habilidades, "Capaz de acelerar partículas com as proprias maos\n");
+    database[3].n_experienciaprof = 3;
+    strcpy(database[3].experienciaprof, "Quarteto fantástico\nIncríveis\nVingadores\n");
 
-    strcpy(database[4].email, "flavia.brtlt@gmail.com");
-    strcpy(database[4].nome, "Flávia");
-    strcpy(database[4].sobrenome, "Bertoletti");
-    strcpy(database[4].foto, "/usr/semfoto");
-    strcpy(database[4].residencia, "Socorro");
-    strcpy(database[4].formacaoacad, "Turismo");
-    strcpy(database[4].habilidades, "Sabe todas as trilhas de socorro, rafting, skydiving");
-    strcpy(database[4].experienciaprof, "Full time como guia turistica de esportes radicais\nCEO da empresa `RotaryClub Radical`");
+    strcpy(database[4].email, "flavia.brtlt@gmail.com\n");
+    strcpy(database[4].nome, "Flávia\n");
+    strcpy(database[4].sobrenome, "Bertoletti\n");
+    strcpy(database[4].foto, "/usr/semfoto\n");
+    strcpy(database[4].residencia, "Socorro\n");
+    strcpy(database[4].formacaoacad, "Turismo\n");
+    strcpy(database[4].habilidades, "Sabe todas as trilhas de socorro, rafting, skydiving\n");
+    database[4].n_experienciaprof = 2;
+    strcpy(database[4].experienciaprof, "Full time como guia turistica de esportes radicais\nCEO da empresa `RotaryClub Radical`\n");
+
 }
