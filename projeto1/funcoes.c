@@ -220,9 +220,7 @@ void handle_client_option(perfil* database, int maxperfil, char message[], char*
     }
     else
     {
-        return strcpy(message, "Nao foi possivel identificar o comando solicitado pelo cliente!");
+        strcpy(message, "Nao foi possivel identificar o comando solicitado pelo cliente!");
     }
-
-    return;
 
 }

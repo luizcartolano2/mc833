@@ -130,7 +130,7 @@ int main(void)
         }
 
         break;
-    }
+       }
 
     freeaddrinfo(servinfo); // all done with this structure
 
@@ -174,7 +174,8 @@ int main(void)
 
             memset(message, '\0', 1200*sizeof(char));
 
-            if ((numbytes = recv(new_fd, client_command, CLIENT_COMMAND_SIZE-1, 0)) == -1) {
+            int numbytes;
+            if (numbytes = recv(new_fd, client_command, CLIENT_COMMAND_SIZE-1, 0) == -1) {
               perror("recv");
               exit(1);
             }
