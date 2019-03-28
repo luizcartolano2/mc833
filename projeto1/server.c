@@ -166,7 +166,6 @@ int main(void)
                   get_in_addr((struct sockaddr *)&their_addr),
                   s, sizeof s);
         printf("server: got connection from %s\n", s);
-        int i = 1;
         if (!fork()) { // this is the child process
             close(sockfd); // child doesn't need the listener
 
@@ -175,40 +174,20 @@ int main(void)
 
             memset(message, '\0', 1200*sizeof(char));
 
-            recv(new_fd, client_command, CLIENT_COMMAND_SIZE - 1, 0);
-            if (client_command[0] == '1')
-            {
-                i++;
-                retorna_formandos_curso(database, MAXPERFIL, message, client_command+1);
+            if ((numbytes = recv(new_fd, client_command, CLIENT_COMMAND_SIZE-1, 0)) == -1) {
+              perror("recv");
+              exit(1);
             }
-            else if(client_command[0] == '2')
-            {
-                retorna_habilidades_cidade(database, MAXPERFIL, message, client_command+1);
-            }
-            else if(client_command[0] == '3')
-            {
-                int k = 0;
-                while (client_command[k] != '\n') k++;
-                client_command[k] = '\0';
-                if (acrescenta_experiencia_perfil(database, MAXPERFIL, k-1 , client_command+1))
-                    strcpy(message, "OK!");
-                else
-                    strcpy(message, "DEU MERDA!");
-            }
-            else if(client_command[0] == '4')
-            {
-                retorna_experiencia_perfil(database, MAXPERFIL, message, client_command+1);
-                printf("%s\n",database[2].experienciaprof);
-                printf("%s\n",message);
-            }
-            printf("%d\n",i);
+
+            handle_client_option(database, MAXPERFIL, message, client_command);
+
             if (send(new_fd, message, 1200, 0) == -1)
                 perror("send");
+
             close(new_fd);
             exit(0);
         }
         close(new_fd);  // parent doesn't need this
-        printf("%d\n",i);
     }
 
     return 0;
