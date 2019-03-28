@@ -7,7 +7,10 @@
 #include <sys/socket.h>
 
 int retorna_formandos_curso(perfil* perfils_array, int num_perfis, char mensagem[], char* curso) {
+    int encontrou = 0;
+
     for (int i=0; i<num_perfis; i++){
+        encontrou++;
         if (strcmp(perfils_array[i].formacaoacad, curso) == 0) {
             strcat(mensagem, perfils_array[i].nome);
             strcat(mensagem, " ");
@@ -15,19 +18,33 @@ int retorna_formandos_curso(perfil* perfils_array, int num_perfis, char mensagem
             strcat(mensagem, "\n");
         }
     }
-    return 1;
+    if (encontrou == 0) {
+        return 0;
+    }
+    else {
+        strcat(mensagem, "Nao foram encontrados formandos para o curso especificado.\n");
+        return 1;
+    }
 }
 
 
 int retorna_habilidades_cidade(perfil* perfils_array, int num_perfis, char mensagem[], char* cidade) {
+    int encontrou = 0;
     for (int i=0; i<num_perfis; i++){
         if (strcmp(perfils_array[i].residencia, cidade) == 0) {
+            encontrou++;
             strcat(mensagem, perfils_array[i].habilidades);
             strcat(mensagem, "\n");
         }
 
     }
-    return 1;
+    if (encontrou == 0) {
+        return 0;
+    }
+    else {
+        strcat(mensagem, "Nao foram encontradas habilidades para a cidade especificada.\n");
+        return 1;
+    }
 }
 
 
@@ -37,8 +54,6 @@ int acrescenta_experiencia_perfil(perfil* perfils_array, int num_perfis, int k, 
         if (strcmp(perfils_array[i].email, email) == 0) {
             strcat(perfils_array[i].experienciaprof, "\n");
             strcat(perfils_array[i].experienciaprof, email+k+1);
-            printf("%s\n",email+k);
-            printf("%s\n", perfils_array[i].experienciaprof);
             return 1;
         }
     }
@@ -52,16 +67,20 @@ int retorna_experiencia_perfil(perfil* perfils_array, int num_perfis, char mensa
             printf("%s\n", perfils_array[i].experienciaprof);
             strcat(mensagem, perfils_array[i].experienciaprof);
             strcat(mensagem, "\n");
+            return 1;
         }
 
     }
-    return 1;
+    strcat(mensagem, "Perfil nao encontrado.\n");
+    return 0;
 }
 
 
 int retorna_perfis(perfil* perfils_array, int num_perfis, char mensagem[]) {
+    int tem_perfil = 0;
     for (int i=0; i<num_perfis; i++){
         if (strlen(perfils_array[i].email) > 0) {
+            tem_perfil++;
             strcat(mensagem, "Nome: ");
             strcat(mensagem, perfils_array[i].nome);
             strcat(mensagem, " ");
@@ -94,7 +113,10 @@ int retorna_perfis(perfil* perfils_array, int num_perfis, char mensagem[]) {
             strcat(mensagem, "\n");
         }
     }
-    return -1;
+    if (tem_perfil == 0)
+        return 0;
+    else
+        return 1;
 }
 
 
@@ -131,11 +153,13 @@ int retorna_perfil(perfil* perfils_array, int num_perfis, char mensagem[], char*
             strcat(mensagem, perfils_array[i].residencia);
             strcat(mensagem, "\n");
             strcat(mensagem, "\n");
+            return 1;
 
         }
 
     }
-    return -1;
+    strcat(mensagem, "Perfil nao encontrado.\n");
+    return 0;
 }
 
 
@@ -227,8 +251,7 @@ void handle_client_option(perfil* database, int maxperfil, char message[], char*
 }
 
 
-int send_all(int socket, void *buffer, size_t length)
-{
+int send_all(int socket, void *buffer, size_t length) {
     char *ptr = (char*) buffer;
     while (length > 0)
     {
