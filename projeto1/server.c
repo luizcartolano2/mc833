@@ -128,6 +128,7 @@ int main(void)
         if (!fork()) { // this is the child process
             close(sockfd); // child doesn't need the listener
             readFromDB(database);
+
             char client_command[CLIENT_COMMAND_SIZE];
             char message[1200];
 

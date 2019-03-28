@@ -162,8 +162,8 @@ int retorna_perfil(perfil* perfils_array, int num_perfis, char mensagem[], char*
     return 0;
 }
 
-void writeToFile(perfil* database)
-{
+
+void writeToFile(perfil* database) {
     FILE *fp = fopen("db", "w");
     if (fp == NULL)
     {
@@ -191,6 +191,7 @@ void writeToFile(perfil* database)
     fputs(filestring, fp);
     fclose(fp);
 }
+
 
 void readFromDB(perfil* database) {
     FILE *fp = fopen("db", "r");
@@ -221,15 +222,6 @@ void readFromDB(perfil* database) {
     }
     fclose(fp);
 }
-//char email[100];
-//char nome[50];
-//char sobrenome[50];
-//char foto[50];
-//char residencia[30];
-//char formacaoacad[50];
-//char habilidades[300];
-//int n_experienciaprof;
-//char experienciaprof[400];
 
 void preencheDB(perfil* database) {
 
