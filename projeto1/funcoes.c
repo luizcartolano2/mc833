@@ -19,10 +19,10 @@ int retorna_formandos_curso(perfil* perfils_array, int num_perfis, char mensagem
         }
     }
     if (encontrou == 0) {
+        strcat(mensagem, "Nao foram encontrados formandos para o curso especificado.\n");
         return 0;
     }
     else {
-        strcat(mensagem, "Nao foram encontrados formandos para o curso especificado.\n");
         return 1;
     }
 }
@@ -39,10 +39,10 @@ int retorna_habilidades_cidade(perfil* perfils_array, int num_perfis, char mensa
 
     }
     if (encontrou == 0) {
+        strcat(mensagem, "Nao foram encontradas habilidades para a cidade especificada.\n");
         return 0;
     }
     else {
-        strcat(mensagem, "Nao foram encontradas habilidades para a cidade especificada.\n");
         return 1;
     }
 }
