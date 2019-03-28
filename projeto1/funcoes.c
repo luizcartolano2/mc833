@@ -192,6 +192,43 @@ void writeToFile(perfil* database)
     fclose(fp);
 }
 
+void readFromDB(perfil* database) {
+    FILE *fp = fopen("db", "r");
+    if (fp == NULL)
+    {
+        perror("Erro ao tentar abrir db\n");
+        exit(1);
+    }
+    memset(database, '\0', 10*sizeof(perfil));
+    for (int i = 0; i < 5; i++)
+    {
+        fgets(database[i].email, 100, fp);
+        fgets(database[i].nome, 100, fp);
+        fgets(database[i].sobrenome, 100, fp);
+        fgets(database[i].foto, 100, fp);
+        fgets(database[i].residencia, 100, fp);
+        fgets(database[i].formacaoacad, 100, fp);
+        fgets(database[i].habilidades, 100, fp);
+        char aux[3];
+        fgets(aux, 100, fp);
+        database[i].n_experienciaprof = aux[0]-'0';
+        for (int j = 0; j < database[i].n_experienciaprof; j++)
+        {
+            char aux[400];
+            fgets(aux, 400, fp);
+            strcat(database[i].experienciaprof, aux);
+        }
+}
+char email[100];
+char nome[50];
+char sobrenome[50];
+char foto[50];
+char residencia[30];
+char formacaoacad[50];
+char habilidades[300];
+int n_experienciaprof;
+char experienciaprof[400];
+
 void preencheDB(perfil* database) {
 
     strcpy(database[0].email, "maria_silva@gmail.com\n");

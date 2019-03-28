@@ -89,6 +89,8 @@ int retorna_perfil(perfil* perfils_array, int num_perfis, char mensagem[], char*
 
 void writeToFile(perfil* database);
 
+void readFromDB(perfil* database);
+
 void preencheDB(perfil* database);
 
 void handle_client_option(perfil* database, int maxperfil, char message[], char* client_command);
