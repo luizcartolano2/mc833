@@ -14,12 +14,10 @@
 #include <arpa/inet.h>
 #include <sys/wait.h>
 #include <signal.h>
-#include "funcoes.h"
 
 #define PORT "3490"  // the port users will be connecting to
-#define CLIENT_COMMAND_SIZE 203
+
 #define BACKLOG 10     // how many pending connections queue will hold
-#define MAXPERFIL 10  // quantos perfis o DB aguenta
 
 void sigchld_handler(int s)
 {
@@ -52,11 +50,6 @@ int main(void)
     int yes=1;
     char s[INET6_ADDRSTRLEN];
     int rv;
-    perfil* database = malloc(MAXPERFIL * sizeof(perfil));
-    memset(database, '\0', MAXPERFIL*sizeof(perfil));
-
-    preencheDB(database);
-    writeToFile(database);
 
     memset(&hints, 0, sizeof hints);
     hints.ai_family = AF_UNSPEC;
@@ -71,13 +64,13 @@ int main(void)
     // loop through all the results and bind to the first we can
     for(p = servinfo; p != NULL; p = p->ai_next) {
         if ((sockfd = socket(p->ai_family, p->ai_socktype,
-                             p->ai_protocol)) == -1) {
+                p->ai_protocol)) == -1) {
             perror("server: socket");
             continue;
         }
 
         if (setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, &yes,
-                       sizeof(int)) == -1) {
+                sizeof(int)) == -1) {
             perror("setsockopt");
             exit(1);
         }
@@ -89,7 +82,7 @@ int main(void)
         }
 
         break;
-       }
+    }
 
     freeaddrinfo(servinfo); // all done with this structure
 
@@ -122,28 +115,14 @@ int main(void)
         }
 
         inet_ntop(their_addr.ss_family,
-                  get_in_addr((struct sockaddr *)&their_addr),
-                  s, sizeof s);
+            get_in_addr((struct sockaddr *)&their_addr),
+            s, sizeof s);
         printf("server: got connection from %s\n", s);
+
         if (!fork()) { // this is the child process
             close(sockfd); // child doesn't need the listener
-            readFromDB(database);
-            char client_command[CLIENT_COMMAND_SIZE];
-            char message[1200];
-
-            memset(message, '\0', 1200*sizeof(char));
-
-            int numbytes;
-            if (numbytes = recv(new_fd, client_command, CLIENT_COMMAND_SIZE-1, 0) == -1) {
-              perror("recv");
-              exit(1);
-            }
-
-            handle_client_option(database, MAXPERFIL, message, client_command);
-
-            if (send_all(new_fd, message, 1200) == -1)
+            if (send(new_fd, "Hello, world!", 13, 0) == -1)
                 perror("send");
-            writeToFile(database);
             close(new_fd);
             exit(0);
         }

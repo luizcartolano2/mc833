@@ -203,12 +203,12 @@ void readFromDB(perfil* database) {
     for (int i = 0; i < 5; i++)
     {
         fgets(database[i].email, 100, fp);
-        fgets(database[i].nome, 100, fp);
-        fgets(database[i].sobrenome, 100, fp);
-        fgets(database[i].foto, 100, fp);
-        fgets(database[i].residencia, 100, fp);
-        fgets(database[i].formacaoacad, 100, fp);
-        fgets(database[i].habilidades, 100, fp);
+        fgets(database[i].nome, 50, fp);
+        fgets(database[i].sobrenome, 50, fp);
+        fgets(database[i].foto, 30, fp);
+        fgets(database[i].residencia, 30, fp);
+        fgets(database[i].formacaoacad, 50, fp);
+        fgets(database[i].habilidades, 300, fp);
         char aux[3];
         fgets(aux, 100, fp);
         database[i].n_experienciaprof = aux[0]-'0';
@@ -219,6 +219,7 @@ void readFromDB(perfil* database) {
             strcat(database[i].experienciaprof, aux);
         }
     }
+    fclose(fp);
 }
 //char email[100];
 //char nome[50];
