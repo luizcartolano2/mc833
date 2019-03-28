@@ -4,6 +4,7 @@
 #include <errno.h>
 #include <string.h>
 #include "funcoes.h"
+#include <sys/socket.h>
 
 int retorna_formandos_curso(perfil* perfils_array, int num_perfis, char mensagem[], char* curso) {
     for (int i=0; i<num_perfis; i++){
@@ -223,4 +224,19 @@ void handle_client_option(perfil* database, int maxperfil, char message[], char*
         strcpy(message, "Nao foi possivel identificar o comando solicitado pelo cliente!");
     }
 
+}
+
+
+int send_all(int socket, void *buffer, size_t length)
+{
+    char *ptr = (char*) buffer;
+    while (length > 0)
+    {
+        int i = send(socket, ptr, length, 0);
+        if (i < 1)
+            return -1;
+        ptr += i;
+        length -= i;
+    }
+    return 0;
 }

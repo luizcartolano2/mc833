@@ -182,7 +182,7 @@ int main(void)
 
             handle_client_option(database, MAXPERFIL, message, client_command);
 
-            if (send(new_fd, message, 1200, 0) == -1)
+            if (send_all(new_fd, message, 1200) == -1)
                 perror("send");
 
             close(new_fd);
