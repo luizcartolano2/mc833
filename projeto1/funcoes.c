@@ -218,16 +218,17 @@ void readFromDB(perfil* database) {
             fgets(aux, 400, fp);
             strcat(database[i].experienciaprof, aux);
         }
+    }
 }
-char email[100];
-char nome[50];
-char sobrenome[50];
-char foto[50];
-char residencia[30];
-char formacaoacad[50];
-char habilidades[300];
-int n_experienciaprof;
-char experienciaprof[400];
+//char email[100];
+//char nome[50];
+//char sobrenome[50];
+//char foto[50];
+//char residencia[30];
+//char formacaoacad[50];
+//char habilidades[300];
+//int n_experienciaprof;
+//char experienciaprof[400];
 
 void preencheDB(perfil* database) {
 
