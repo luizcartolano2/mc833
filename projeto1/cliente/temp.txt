@@ -4,5 +4,5 @@
 (4) dado o email do perfil, retornar sua experiência;
 (5) listar todas as informações de todos os perfis;
 (6) dado o email de um perfil, retornar suas informações.
-Qual curso você deseja ver as pessoas formadas?
-FINAL REQUEST STRING IS: 1Engenharia
+Qual cidade você deseja ver as habilidades?
+FINAL REQUEST STRING IS: 2Fortaleza
