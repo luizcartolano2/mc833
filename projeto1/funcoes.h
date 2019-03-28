@@ -88,6 +88,6 @@ int retorna_perfil(perfil* perfils_array, int num_perfis, char mensagem[], char*
 
 void preencheDB(perfil* database);
 
-void handle_client_option(perfil* database, int MAXPERFIL, char message[], char* client_command);
+void handle_client_option(perfil* database, int maxperfil, char message[], char* client_command);
 
 #endif

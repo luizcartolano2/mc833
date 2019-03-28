@@ -187,39 +187,42 @@ void preencheDB(perfil* database) {
 }
 
 
-void handle_client_option(perfil* database, int MAXPERFIL, char message[], char* client_command) {
+void handle_client_option(perfil* database, int maxperfil, char message[], char* client_command) {
     if (client_command[0] == '1')
     {
-        retorna_formandos_curso(database, MAXPERFIL, message, client_command+1);
+        retorna_formandos_curso(database, maxperfil, message, client_command+1);
     }
     else if(client_command[0] == '2')
     {
-        retorna_habilidades_cidade(database, MAXPERFIL, message, client_command+1);
+        retorna_habilidades_cidade(database, maxperfil, message, client_command+1);
     }
     else if(client_command[0] == '3')
     {
         int k = 0;
         while (client_command[k] != '\n') k++;
         client_command[k] = '\0';
-        if (acrescenta_experiencia_perfil(database, MAXPERFIL, k-1 , client_command+1))
+        if (acrescenta_experiencia_perfil(database, maxperfil, k-1 , client_command+1))
             strcpy(message, "OK!");
         else
             strcpy(message, "DEU MERDA!");
     }
     else if(client_command[0] == '4')
     {
-        retorna_experiencia_perfil(database, MAXPERFIL, message, client_command+1);
+        retorna_experiencia_perfil(database, maxperfil, message, client_command+1);
     }
     else if(client_command[0] == '5')
     {
-        retorna_perfis(database, MAXPERFIL, message);
+        retorna_perfis(database, maxperfil, message);
     }
     else if(client_command[0] == '6')
     {
-        retorna_perfil(database, MAXPERFIL, message, client_command+1);
+        retorna_perfil(database, maxperfil, message, client_command+1);
     }
     else
     {
         return strcpy(message, "Nao foi possivel identificar o comando solicitado pelo cliente!");
     }
+
+    return;
+
 }
