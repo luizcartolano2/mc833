@@ -16,7 +16,7 @@
 
 #define PORT "3490" // the port client will be connecting to
 
-#define MAXDATASIZE 1200 // max number of bytes we can get at once
+#define MAXDATASIZE 5000 // max number of bytes we can get at once
 #define FINALREQUESTSIZE 203
 
 // get sockaddr, IPv4 or IPv6:
@@ -137,6 +137,9 @@ int main(int argc, char *argv[])
     buf[numbytes] = '\0';
 
     printf("client: received '%s'",buf);
+
+    int a = 10;
+    printf("\nTempo cliente: %d\n", a);
 
     close(sockfd);
 

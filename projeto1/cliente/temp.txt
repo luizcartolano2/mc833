@@ -4,5 +4,68 @@
 (4) dado o email do perfil, retornar sua experiência;
 (5) listar todas as informações de todos os perfis;
 (6) dado o email de um perfil, retornar suas informações.
-Qual cidade você deseja ver as habilidades?
-FINAL REQUEST STRING IS: 2Fortaleza
+FINAL REQUEST STRING IS: 5�
+client: connecting to ::1
+client: received 'Nome: Maria
+ Silva
+
+Email: maria_silva@gmail.com
+
+Curso: Ciência da Computação
+
+Foto: /usr/semfoto
+
+Habilidades: Análise de Dados, Internet das Coisas, Computação em Nuvem
+
+Experiencia profissional: Estágio de 1 ano na Empresa X, onde trabalhei como analista de dados
+Trabalhei com IoT e Computação em Nuvem por 5 anos na Empresa Y
+
+Residencia: Campinas
+
+
+Nome: Luiz
+ Cartolano
+
+Email: luiz_cartolano@gmail.com
+
+Curso: Engenharia de Computação
+
+Foto: /usr/semfoto
+
+Habilidades: Parecer o Dorinha, Salva animais exceto patos, Superacademico
+
+Experiencia profissional: Conpec empresa júnior na area de qualidade salvando o dia
+Estágio no Itaú juntando dinheiro pro Amoedo 30
+
+Residencia: Campinas
+
+
+Nome: Gabriel
+ Feitosa
+
+Email: gabrielaffonso32@hotmail.com
+
+Curso: Engenharia de Computação
+
+Foto: /usr/semfoto
+
+Habilidades: Caprinocultura, joga LoL muito bem, manja de animes
+
+Experiencia profissional: Conpec empresa júnior como gerente de projetos desviando de balas que deixaram pra mim
+
+Residencia: Fortaleza
+
+
+Nome: Victor
+ Henrique
+
+Email: victor_henrique@gmail.com
+
+Curso: Física
+
+Foto: /usr/semfoto
+
+Habilidades: Capaz de acelerar partículas com as proprias maos
+
+Experienc'
+Tempo cliente: 10

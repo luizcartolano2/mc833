@@ -130,7 +130,7 @@ int main(void)
             readFromDB(database);
 
             char client_command[CLIENT_COMMAND_SIZE];
-            char message[1200];
+            char message[5000];
 
             memset(message, '\0', 1200*sizeof(char));
 
