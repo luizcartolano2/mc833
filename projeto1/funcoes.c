@@ -8,7 +8,7 @@
 
 int retorna_formandos_curso(perfil* perfils_array, int num_perfis, char mensagem[], char* curso) {
     int encontrou = 0;
-
+    strcat(curso, "\n");
     for (int i=0; i<num_perfis; i++){
         if (strcmp(perfils_array[i].formacaoacad, curso) == 0) {
             encontrou++;
@@ -30,6 +30,7 @@ int retorna_formandos_curso(perfil* perfils_array, int num_perfis, char mensagem
 
 int retorna_habilidades_cidade(perfil* perfils_array, int num_perfis, char mensagem[], char* cidade) {
     int encontrou = 0;
+    strcat(cidade, "\n");
     for (int i=0; i<num_perfis; i++){
         if (strcmp(perfils_array[i].residencia, cidade) == 0) {
             encontrou++;
@@ -49,7 +50,7 @@ int retorna_habilidades_cidade(perfil* perfils_array, int num_perfis, char mensa
 
 
 int acrescenta_experiencia_perfil(perfil* perfils_array, int num_perfis, int k, char* email) {
-    printf("%s\n",email);
+    strcat(email, "\n");
     for (int i=0; i<num_perfis; i++){
         if (strcmp(perfils_array[i].email, email) == 0) {
             strcat(perfils_array[i].experienciaprof, "\n");
@@ -62,6 +63,7 @@ int acrescenta_experiencia_perfil(perfil* perfils_array, int num_perfis, int k, 
 
 
 int retorna_experiencia_perfil(perfil* perfils_array, int num_perfis, char mensagem[], char* email) {
+    strcat(email, "\n");
     for (int i=0; i<num_perfis; i++){
         if (strcmp(perfils_array[i].email, email) == 0) {
             printf("%s\n", perfils_array[i].experienciaprof);
@@ -121,6 +123,7 @@ int retorna_perfis(perfil* perfils_array, int num_perfis, char mensagem[]) {
 
 
 int retorna_perfil(perfil* perfils_array, int num_perfis, char mensagem[], char* email) {
+    strcat(email, "\n");
     for (int i=0; i<num_perfis; i++){
         if (strcmp(perfils_array[i].email, email) == 0) {
             strcat(mensagem, "Nome: ");
@@ -204,12 +207,19 @@ void readFromDB(perfil* database) {
     for (int i = 0; i < 5; i++)
     {
         fgets(database[i].email, 100, fp);
+        printf("Email:%s", database[i].email);
         fgets(database[i].nome, 50, fp);
+        printf("Nome:%s", database[i].nome);
         fgets(database[i].sobrenome, 50, fp);
+        printf("Sobrenoe:%s", database[i].sobrenome);
         fgets(database[i].foto, 30, fp);
+        printf("Foto:%s", database[i].foto);
         fgets(database[i].residencia, 30, fp);
+        printf("Res:%s", database[i].residencia);
         fgets(database[i].formacaoacad, 50, fp);
+        printf("Fomr:%s", database[i].formacaoacad);
         fgets(database[i].habilidades, 300, fp);
+        printf("Habi:%s", database[i].habilidades);
         char aux[3];
         fgets(aux, 100, fp);
         database[i].n_experienciaprof = aux[0]-'0';
