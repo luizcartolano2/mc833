@@ -11,7 +11,7 @@
 #include <sys/types.h>
 #include <netinet/in.h>
 #include <sys/socket.h>
-
+#include "funcoes.h"
 #include <arpa/inet.h>
 
 #define PORT "3490" // the port client will be connecting to
@@ -124,14 +124,19 @@ int main(int argc, char *argv[])
     printf("client: connecting to %s\n", s);
     freeaddrinfo(servinfo); // all done with this structure
 
-    send(sockfd, finalRequest, sizeof(finalRequest), 0);
+    if (send_all(sockfd, finalRequest, sizeof(finalRequest)) == -1) {
+        perror("send");
+    }
 
     //Recebe o request finalmente
     char buf[MAXDATASIZE];
     memset(buf, '\0', MAXDATASIZE*sizeof(char));
+
     if ((numbytes = recv(sockfd, buf, MAXDATASIZE-1, 0)) == -1) {
-      perror("recv");
-      exit(1);
+        printf("numbytes: %d\n", numbytes);
+        printf("TO AQUI");
+        perror("recv");
+        exit(1);
     }
 
     buf[numbytes] = '\0';

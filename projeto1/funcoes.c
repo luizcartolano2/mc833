@@ -10,8 +10,8 @@ int retorna_formandos_curso(perfil* perfils_array, int num_perfis, char mensagem
     int encontrou = 0;
 
     for (int i=0; i<num_perfis; i++){
-        encontrou++;
         if (strcmp(perfils_array[i].formacaoacad, curso) == 0) {
+            encontrou++;
             strcat(mensagem, perfils_array[i].nome);
             strcat(mensagem, " ");
             strcat(mensagem, perfils_array[i].sobrenome);
