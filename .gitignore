@@ -5,6 +5,10 @@ a.out
 client
 server
 
+**/a.out
+**/client
+**/server
+
 # User-specific stuff
 **/.idea/**/workspace.xml
 **/.idea/**/tasks.xml
