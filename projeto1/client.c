@@ -13,6 +13,7 @@
 #include <sys/socket.h>
 #include "funcoes.h"
 #include <arpa/inet.h>
+#include <time.h>
 
 #define PORT "3490" // the port client will be connecting to
 
@@ -34,6 +35,10 @@ int main(int argc, char *argv[])
     struct addrinfo hints, *servinfo, *p;
     int rv;
     char s[INET6_ADDRSTRLEN];
+    clock_t start_time, end_time;
+
+    /* Get the current time. */
+
 
     if (argc != 2) {
         fprintf(stderr,"usage: client hostname\n");
@@ -124,6 +129,8 @@ int main(int argc, char *argv[])
     printf("client: connecting to %s\n", s);
     freeaddrinfo(servinfo); // all done with this structure
 
+    // AQUI INICIA A REQUISICAO
+    start_time = clock();
     if (send_all(sockfd, finalRequest, sizeof(finalRequest)) == -1) {
         perror("send");
     }
@@ -132,19 +139,20 @@ int main(int argc, char *argv[])
     char buf[MAXDATASIZE];
     memset(buf, '\0', MAXDATASIZE*sizeof(char));
 
+
     if ((numbytes = recv(sockfd, buf, MAXDATASIZE-1, 0)) == -1) {
         printf("numbytes: %d\n", numbytes);
         printf("TO AQUI");
         perror("recv");
         exit(1);
     }
-
+    // AQUI TERMINA A REQUISICAO
+    end_time = clock();
     buf[numbytes] = '\0';
 
     printf("client: received '%s'",buf);
 
-    int a = 10;
-    printf("\nTempo cliente: %d\n", a);
+    printf("\nTempo cliente: %lf\n", (((double)end_time - (double)start_time) / (double)CLOCKS_PER_SEC ));
 
     close(sockfd);
 
