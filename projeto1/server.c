@@ -55,8 +55,8 @@ int main(void)
     int rv;
     perfil* database = malloc(MAXPERFIL * sizeof(perfil));
     memset(database, '\0', MAXPERFIL*sizeof(perfil));
-	clock_t start_time, end_time;
-	
+    clock_t start_time, end_time;
+
     preencheDB(database);
     writeToFile(database);
 
@@ -128,7 +128,7 @@ int main(void)
                   s, sizeof s);
         printf("server: got connection from %s\n", s);
         if (!fork()) { // this is the child process
-            start_time = clock();
+
             close(sockfd); // child doesn't need the listener
             readFromDB(database);
 
@@ -143,12 +143,12 @@ int main(void)
                 perror("recv");
                 exit(1);
             }
-
+            start_time = clock();
             handle_client_option(database, MAXPERFIL, message, client_command);
-			end_time = clock();
-			
-			printf("\nTempo servidor: %lf\n", (((double)end_time - (double)start_time) / (double)CLOCKS_PER_SEC ));
-			
+            end_time = clock();
+
+            printf("\nTempo servidor: %lf\n", (((double)end_time - (double)start_time) / (double)CLOCKS_PER_SEC ));
+
             if (send_all(new_fd, message, sizeof(message)) == -1) {
                 perror("send");
             }

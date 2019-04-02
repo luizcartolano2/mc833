@@ -4,14 +4,14 @@ import pandas as pd
 import re
 
 # entra com o IP se quiser
-redes = ['localhost', '177.220.85.54']
+redes = ['localhost']#, '177.220.85.54']
 d = {'Opcao': [], 'Tempo(ms)': []}
 tempo_local = pd.DataFrame(data=d)
 tempo_2_maquinas = pd.DataFrame(data=d)
 
 for rede in redes:
     for i in range(1,7):
-        for k in range(0,25):
+        for k in range(0,90):
             linha_executavel = './client ' + rede + ' < input' + str(i) + ' > temp.txt'
             os.system(linha_executavel)
             f = open("temp.txt","r+", encoding="ISO-8859-1")

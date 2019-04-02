@@ -13,7 +13,7 @@ typedef struct perfil {
     char formacaoacad[50];
     char habilidades[300];
     int n_experienciaprof;
-    char experienciaprof[400];
+    char experienciaprof[2000];
 } perfil;
 
 // funcoes para manipular as informacoes salvas pelo servidor e enviar o que for pedido pelo cliente
@@ -92,7 +92,7 @@ void writeToFile(perfil* database);
 void readFromDB(perfil* database);
 
 void preencheDB(perfil* database);
-    
+
 void handle_client_option(perfil* database, int maxperfil, char message[], char* client_command);
 
 int send_all(int socket, void *buffer, size_t length);
