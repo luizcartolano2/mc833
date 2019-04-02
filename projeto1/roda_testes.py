@@ -11,7 +11,7 @@ tempo_2_maquinas = pd.DataFrame(data=d)
 
 for rede in redes:
     for i in range(1,7):
-        for k in range(0,100):
+        for k in range(0,20):
             linha_executavel = './client ' + rede + ' < input' + str(i) + ' > temp.txt'
             os.system(linha_executavel)
             f = open("temp.txt","r+", encoding="ISO-8859-1")
@@ -44,9 +44,18 @@ for x in content:
 		
 for rede in redes:
 	if rede == 'Localhost':
-		temp = pd.Series(tempo_server[0:599])
+		temp = pd.Series(tempo_server[0:(int(len(tempo_server)/2 - 1))])
 		tempo_local['Tempo Server'] = temp
 	else:
-		temp = pd.Series(tempo_server[600:1199])
+		temp = pd.Series(tempo_server[(int(len(tempo_server)/2)):-1])
 		tempo_2_maquinas['Tempo Server'] = temp
-	
+
+try:
+	tempo_local['Tempo Comunicacao'] = tempo_local['Tempo(ms)'] - tempo_local['Tempo Server']
+except:
+	pdb.set_trace()
+
+try:
+	tempo_2_maquinas['Tempo Comunicacao'] = tempo_2_maquinas['Tempo(ms)'] - tempo_2_maquinas['Tempo Server']
+except:
+	pass
