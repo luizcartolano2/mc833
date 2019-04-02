@@ -97,7 +97,4 @@ void handle_client_option(perfil* database, int maxperfil, char message[], char*
 
 int send_all(int socket, void *buffer, size_t length);
 
-char* itoa(int value, char* buffer, int base);
-char* reverse(char *buffer, int i, int j);
-void swap(char *x, char *y);
 #endif

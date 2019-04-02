@@ -184,10 +184,11 @@ void writeToFile(perfil* database) {
         strcat(filestring, database[i].residencia);
         strcat(filestring, database[i].formacaoacad);
         strcat(filestring, database[i].habilidades);
-        char aux[6];
-        itoa(database[i].n_experienciaprof, aux, 10);
-        aux[5] = '\n';
-        aux[6] = '\0';
+        char aux[4];
+        aux[0] = (database[i].n_experienciaprof/10) + '0';
+        aux[1] = (database[i].n_experienciaprof%10) + '0';
+        aux[2] = '\n';
+        aux[3] = '\0';
         strcat(filestring, aux);
         strcat(filestring, database[i].experienciaprof);
     }
@@ -220,7 +221,7 @@ void readFromDB(perfil* database) {
         //printf("Fomr:%s", database[i].formacaoacad);
         fgets(database[i].habilidades, 300, fp);
         //printf("Habi:%s", database[i].habilidades);
-        char aux[3];
+        char aux[4];
         fgets(aux, 100, fp);
         database[i].n_experienciaprof = atoi(aux);
         for (int j = 0; j < database[i].n_experienciaprof; j++)
@@ -340,55 +341,4 @@ int send_all(int socket, void *buffer, size_t length) {
     return 0;
 }
 
-// inline function to swap two numbers
-void swap(char *x, char *y) {
-	char t = *x; *x = *y; *y = t;
-}
 
-// function to reverse buffer[i..j]
-char* reverse(char *buffer, int i, int j)
-{
-	while (i < j)
-		swap(&buffer[i++], &buffer[j--]);
-
-	return buffer;
-}
-
-// Iterative function to implement itoa() function in C
-char* itoa(int value, char* buffer, int base)
-{
-	// invalid input
-	if (base < 2 || base > 32)
-		return buffer;
-
-	// consider absolute value of number
-	int n = abs(value);
-
-	int i = 0;
-	while (n)
-	{
-		int r = n % base;
-
-		if (r >= 10) 
-			buffer[i++] = 65 + (r - 10);
-		else
-			buffer[i++] = 48 + r;
-
-		n = n / base;
-	}
-
-	// if number is 0
-	if (i == 0)
-		buffer[i++] = '0';
-
-	// If base is 10 and value is negative, the resulting string 
-	// is preceded with a minus sign (-)
-	// With any other base, value is always considered unsigned
-	if (value < 0 && base == 10)
-		buffer[i++] = '-';
-
-	buffer[i] = '\0'; // null terminate string
-
-	// reverse the string and return it
-	return reverse(buffer, 0, i - 1);
-}
