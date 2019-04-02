@@ -43,7 +43,7 @@ for x in content:
         tempo_server.append(tempo)
 
 for rede in redes:
-    if rede == 'Localhost':
+    if rede == 'localhost':
         tempo_local['Tempo Server'] = tempo_server
     else:
         pass
