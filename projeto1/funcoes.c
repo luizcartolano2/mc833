@@ -184,10 +184,10 @@ void writeToFile(perfil* database) {
         strcat(filestring, database[i].residencia);
         strcat(filestring, database[i].formacaoacad);
         strcat(filestring, database[i].habilidades);
-        char aux[3];
-        aux[0] = database[i].n_experienciaprof + '0';
-        aux[1] = '\n';
-        aux[2] = '\0';
+        char aux[6];
+        itoa(database[i].n_experienciaprof, aux, 10);
+        aux[5] = '\n';
+        aux[6] = '\0';
         strcat(filestring, aux);
         strcat(filestring, database[i].experienciaprof);
     }
@@ -222,7 +222,7 @@ void readFromDB(perfil* database) {
         //printf("Habi:%s", database[i].habilidades);
         char aux[3];
         fgets(aux, 100, fp);
-        database[i].n_experienciaprof = aux[0]-'0';
+        database[i].n_experienciaprof = atoi(aux);
         for (int j = 0; j < database[i].n_experienciaprof; j++)
         {
             char aux[400];
