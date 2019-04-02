@@ -142,7 +142,8 @@ int main(void)
             }
 
             handle_client_option(database, MAXPERFIL, message, client_command);
-            if (send_all(new_fd, message, 1200) == -1) {
+
+            if (send_all(new_fd, message, sizeof(message)) == -1) {
                 perror("send");
             }
             writeToFile(database);

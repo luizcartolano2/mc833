@@ -13,9 +13,8 @@ int retorna_formandos_curso(perfil* perfils_array, int num_perfis, char mensagem
         if (strcmp(perfils_array[i].formacaoacad, curso) == 0) {
             encontrou++;
             strcat(mensagem, perfils_array[i].nome);
-            strcat(mensagem, " ");
+            mensagem[strlen(mensagem)-1] = ' ';
             strcat(mensagem, perfils_array[i].sobrenome);
-            strcat(mensagem, "\n");
         }
     }
     if (encontrou == 0) {
@@ -35,7 +34,6 @@ int retorna_habilidades_cidade(perfil* perfils_array, int num_perfis, char mensa
         if (strcmp(perfils_array[i].residencia, cidade) == 0) {
             encontrou++;
             strcat(mensagem, perfils_array[i].habilidades);
-            strcat(mensagem, "\n");
         }
 
     }
@@ -50,11 +48,14 @@ int retorna_habilidades_cidade(perfil* perfils_array, int num_perfis, char mensa
 
 
 int acrescenta_experiencia_perfil(perfil* perfils_array, int num_perfis, int k, char* email) {
-    strcat(email, "\n");
+    char aux[100];
+    strcat(aux, email);
+    strcat(aux, "\n");
     for (int i=0; i<num_perfis; i++){
-        if (strcmp(perfils_array[i].email, email) == 0) {
-            strcat(perfils_array[i].experienciaprof, "\n");
+        if (strcmp(perfils_array[i].email, aux) == 0) {
             strcat(perfils_array[i].experienciaprof, email+k+1);
+            strcat(perfils_array[i].experienciaprof, "\n");
+            perfils_array[i].n_experienciaprof++;
             return 1;
         }
     }
@@ -68,7 +69,6 @@ int retorna_experiencia_perfil(perfil* perfils_array, int num_perfis, char mensa
         if (strcmp(perfils_array[i].email, email) == 0) {
             printf("%s\n", perfils_array[i].experienciaprof);
             strcat(mensagem, perfils_array[i].experienciaprof);
-            strcat(mensagem, "\n");
             return 1;
         }
 
@@ -207,19 +207,19 @@ void readFromDB(perfil* database) {
     for (int i = 0; i < 5; i++)
     {
         fgets(database[i].email, 100, fp);
-        printf("Email:%s", database[i].email);
+        //printf("Email:%s", database[i].email);
         fgets(database[i].nome, 50, fp);
-        printf("Nome:%s", database[i].nome);
+        //printf("Nome:%s", database[i].nome);
         fgets(database[i].sobrenome, 50, fp);
-        printf("Sobrenoe:%s", database[i].sobrenome);
+        //printf("Sobrenoe:%s", database[i].sobrenome);
         fgets(database[i].foto, 30, fp);
-        printf("Foto:%s", database[i].foto);
+        //printf("Foto:%s", database[i].foto);
         fgets(database[i].residencia, 30, fp);
-        printf("Res:%s", database[i].residencia);
+        //printf("Res:%s", database[i].residencia);
         fgets(database[i].formacaoacad, 50, fp);
-        printf("Fomr:%s", database[i].formacaoacad);
+        //printf("Fomr:%s", database[i].formacaoacad);
         fgets(database[i].habilidades, 300, fp);
-        printf("Habi:%s", database[i].habilidades);
+        //printf("Habi:%s", database[i].habilidades);
         char aux[3];
         fgets(aux, 100, fp);
         database[i].n_experienciaprof = aux[0]-'0';
@@ -302,7 +302,7 @@ void handle_client_option(perfil* database, int maxperfil, char message[], char*
         int k = 0;
         while (client_command[k] != '\n') k++;
         client_command[k] = '\0';
-        if (acrescenta_experiencia_perfil(database, maxperfil, k-1 , client_command+1))
+        if (acrescenta_experiencia_perfil(database, maxperfil, k-1, client_command+1))
             strcpy(message, "OK!");
         else
             strcpy(message, "DEU MERDA!");

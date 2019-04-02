@@ -11,7 +11,7 @@ tempo_2_maquinas = pd.DataFrame(data=d)
 
 for rede in redes:
     for i in range(1,6):
-        for k in range(0,1):
+        for k in range(0,20):
             linha_executavel = './client ' + rede + ' < input' + str(i) + ' > temp.txt'
             os.system(linha_executavel)
             f = open("temp.txt","r", encoding="ISO-8859-1")

@@ -141,8 +141,6 @@ int main(int argc, char *argv[])
 
 
     if ((numbytes = recv(sockfd, buf, MAXDATASIZE-1, 0)) == -1) {
-        printf("numbytes: %d\n", numbytes);
-        printf("TO AQUI");
         perror("recv");
         exit(1);
     }
