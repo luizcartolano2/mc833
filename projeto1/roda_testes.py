@@ -49,4 +49,4 @@ for rede in redes:
         pass
 
 tempo_local.to_csv('local.csv',sep=';')
-tempo_2_maquinas.to_csv('naolocal.csv',sep=';')
+tempo_2_maquinas.to_csv('nao_local.csv',sep=';')
