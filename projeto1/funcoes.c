@@ -184,10 +184,11 @@ void writeToFile(perfil* database) {
         strcat(filestring, database[i].residencia);
         strcat(filestring, database[i].formacaoacad);
         strcat(filestring, database[i].habilidades);
-        char aux[6];
-        itoa(database[i].n_experienciaprof, aux, 10);
-        aux[5] = '\n';
-        aux[6] = '\0';
+        char aux[4];
+        aux[0] = (database[i].n_experienciaprof/10) + '0';
+        aux[1] = (database[i].n_experienciaprof%10) + '0';
+        aux[2] = '\n';
+        aux[3] = '\0';
         strcat(filestring, aux);
         strcat(filestring, database[i].experienciaprof);
     }
@@ -220,7 +221,7 @@ void readFromDB(perfil* database) {
         //printf("Fomr:%s", database[i].formacaoacad);
         fgets(database[i].habilidades, 300, fp);
         //printf("Habi:%s", database[i].habilidades);
-        char aux[3];
+        char aux[4];
         fgets(aux, 100, fp);
         database[i].n_experienciaprof = atoi(aux);
         for (int j = 0; j < database[i].n_experienciaprof; j++)
@@ -339,3 +340,5 @@ int send_all(int socket, void *buffer, size_t length) {
     }
     return 0;
 }
+
+
