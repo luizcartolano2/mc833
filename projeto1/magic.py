@@ -17,7 +17,7 @@ for x in content:
 
 tempo_2_maquinas['Tempo Server'] = tempo_server
 
-tempo_localhost['Tempo Comunicacao'] = tempo_localhost['Tempo(ms)'] - tempo_localhost['Tempo server']
+tempo_localhost['Tempo Comunicacao'] = tempo_localhost['Tempo(ms)'] - tempo_localhost['Tempo Server']
 tempo_2_maquinas['Tempo Comunicacao'] = tempo_2_maquinas['Tempo(ms)'] - tempo_2_maquinas['Tempo Server']
 
 pdb.set_trace()
