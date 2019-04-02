@@ -37,27 +37,16 @@ input("Pressione alguma coisa")
 s_f = open("server.txt","r+", encoding="ISO-8859-1")
 content = s_f.readlines()
 for x in content:
-	if 'Tempo servidor:' in x:
-		tempo = str(x[x.find(':')+1 : -1])
-		tempo = tempo.strip()
-		tempo_server.append(tempo)
-		
+    if 'Tempo servidor:' in x:
+        tempo = str(x[x.find(':')+1 : -1])
+        tempo = tempo.strip()
+        tempo_server.append(tempo)
+
 for rede in redes:
-	if rede == 'Localhost':
-		tempo_local['Tempo Server'] = tempo_server
-	else:
-		temp = pd.Series(tempo_server[(int(len(tempo_server)/2)):-1])
-		tempo_2_maquinas['Tempo Server'] = temp
-
-try:
-	tempo_local['Tempo Comunicacao'] = tempo_local['Tempo(ms)'] - tempo_local['Tempo Server']
-except:
-	pdb.set_trace()
-
-try:
-	tempo_2_maquinas['Tempo Comunicacao'] = tempo_2_maquinas['Tempo(ms)'] - tempo_2_maquinas['Tempo Server']
-except:
-	pass
+    if rede == 'Localhost':
+        tempo_local['Tempo Server'] = tempo_server
+    else:
+        pass
 
 tempo_local.to_csv('local.csv',sep=';')
 tempo_2_maquinas.to_csv('naolocal.csv',sep=';')
