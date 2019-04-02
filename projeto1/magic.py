@@ -57,7 +57,6 @@ for rede in redes:
 
         fig = plt.figure()
         tempo_total.hist(bins=90)
-        plt.plot(x_total)
         fig.suptitle('Tempo total gasto')
         plt.xlabel('Tempo')
         plt.ylabel('Frequencia')
