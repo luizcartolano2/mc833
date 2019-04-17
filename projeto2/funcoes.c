@@ -49,6 +49,7 @@ int retorna_habilidades_cidade(perfil* perfils_array, int num_perfis, char mensa
 
 int acrescenta_experiencia_perfil(perfil* perfils_array, int num_perfis, int k, char* email) {
     char aux[100];
+    memset(aux, '\0', 100*sizeof(char));
     strcat(aux, email);
     strcat(aux, "\n");
     for (int i=0; i<num_perfis; i++){
@@ -226,8 +227,8 @@ void readFromDB(perfil* database) {
         database[i].n_experienciaprof = atoi(aux);
         for (int j = 0; j < database[i].n_experienciaprof; j++)
         {
-            char aux[400];
-            fgets(aux, 400, fp);
+            char aux[2000];
+            fgets(aux, 2000, fp);
             strcat(database[i].experienciaprof, aux);
         }
     }
@@ -340,5 +341,3 @@ int send_all(int socket, void *buffer, size_t length) {
     }
     return 0;
 }
-
-
