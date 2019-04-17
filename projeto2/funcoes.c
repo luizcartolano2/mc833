@@ -129,33 +129,26 @@ int retorna_perfil(perfil* perfils_array, int num_perfis, char mensagem[], char*
         if (strcmp(perfils_array[i].email, email) == 0) {
             strcat(mensagem, "Nome: ");
             strcat(mensagem, perfils_array[i].nome);
-            strcat(mensagem, " ");
+            strcat(mensagem, "Sobrenome: ");
             strcat(mensagem, perfils_array[i].sobrenome);
-            strcat(mensagem, "\n");
 
             strcat(mensagem, "Email: ");
             strcat(mensagem, perfils_array[i].email);
-            strcat(mensagem, "\n");
 
             strcat(mensagem, "Curso: ");
             strcat(mensagem, perfils_array[i].formacaoacad);
-            strcat(mensagem, "\n");
 
             strcat(mensagem, "Foto: ");
             strcat(mensagem, perfils_array[i].foto);
-            strcat(mensagem, "\n");
 
             strcat(mensagem, "Habilidades: ");
             strcat(mensagem, perfils_array[i].habilidades);
-            strcat(mensagem, "\n");
 
             strcat(mensagem, "Experiencia profissional: ");
             strcat(mensagem, perfils_array[i].experienciaprof);
-            strcat(mensagem, "\n");
 
             strcat(mensagem, "Residencia: ");
             strcat(mensagem, perfils_array[i].residencia);
-            strcat(mensagem, "\n");
             strcat(mensagem, "\n");
             return 1;
 
