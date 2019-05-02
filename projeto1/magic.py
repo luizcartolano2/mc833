@@ -6,25 +6,25 @@ import math
 import scipy.stats
 
 # first we read the dfs
-tempo_localhost = pd.read_csv('local.csv', sep=';', converters={'Tempo(ms)': float, 'Tempo server': float}).drop(['Unnamed: 0'],axis=1)
-tempo_2_maquinas = pd.read_csv('nao_local.csv', sep=';', converters={'Tempo(ms)': float}).drop(['Unnamed: 0'],axis=1)
+tempo_localhost = pd.read_csv('resultados/local.csv', sep=';', converters={'Tempo(ms)': float, 'Tempo Server': float, 'Tempo Comunicacao': float}).drop(['Unnamed: 0'],axis=1)
+tempo_2_maquinas = pd.read_csv('resultados/nao_local.csv', sep=';', converters={'Tempo(ms)': float, 'Tempo Server': float, 'Tempo Comunicacao': float}).drop(['Unnamed: 0'],axis=1)
 
-s_f = open("server.txt","r+", encoding="ISO-8859-1")
-content = s_f.readlines()
-tempo_server = []
-for x in content:
-    if 'Tempo servidor:' in x:
-        tempo = str(x[x.find(':')+1 : -1])
-        tempo = tempo.strip()
-        tempo_server.append(float(tempo))
-
-tempo_2_maquinas['Tempo Server'] = tempo_server
-
-tempo_localhost['Tempo Comunicacao'] = tempo_localhost['Tempo(ms)'] - tempo_localhost['Tempo Server']
-tempo_2_maquinas['Tempo Comunicacao'] = tempo_2_maquinas['Tempo(ms)'] - tempo_2_maquinas['Tempo Server']
-
-tempo_localhost.to_csv('local.csv', sep=';')
-tempo_2_maquinas.to_csv('nao_local.csv', sep=';')
+# s_f = open("server.txt","r+", encoding="ISO-8859-1")
+# content = s_f.readlines()
+# tempo_server = []
+# for x in content:
+#     if 'Tempo servidor:' in x:
+#         tempo = str(x[x.find(':')+1 : -1])
+#         tempo = tempo.strip()
+#         tempo_server.append(float(tempo))
+#
+# tempo_2_maquinas['Tempo Server'] = tempo_server
+#
+# tempo_localhost['Tempo Comunicacao'] = tempo_localhost['Tempo(ms)'] - tempo_localhost['Tempo Server']
+# tempo_2_maquinas['Tempo Comunicacao'] = tempo_2_maquinas['Tempo(ms)'] - tempo_2_maquinas['Tempo Server']
+#
+# tempo_localhost.to_csv('local.csv', sep=';')
+# tempo_2_maquinas.to_csv('nao_local.csv', sep=';')
 
 d = {'Opcao':[], 'Media':[], 'Desvio': [], 'Intervalo de confianca': [], 'Tipo':[]}
 resultao_total = pd.DataFrame(data=d)
@@ -56,18 +56,19 @@ for rede in redes:
         resultao_comunicacao = resultao_comunicacao.append(temp)
 
         fig = plt.figure()
-        tempo_total.hist(bins=90)
-        fig.suptitle('Tempo total gasto')
+        tempo_total.hist(bins=10)
+        # fig.suptitle('Tempo total gasto - Opcao ' + str(i))
         plt.xlabel('Tempo')
         plt.ylabel('Frequencia')
-        fig.savefig('tempo_total_' + rede + '_opcao' + str(i) + '.png')
+        fig.savefig('novos_graficos/tempo_total_' + rede + '_opcao' + str(i) + '.png')
 
         fig = plt.figure()
-        tempo_comunicacao.hist(bins=90)
-        fig.suptitle('Tempo de Comunicacao')
+        tempo_comunicacao.hist(bins=10)
+        #fig.suptitle('Tempo de Comunicacao - Opcao ' + str(i))
         plt.xlabel('Tempo')
         plt.ylabel('Frequencia')
-        fig.savefig('tempo_comunicacao_' + rede + '_opcao' + str(i) + '.png')
+        fig.savefig('novos_graficos/tempo_comunicacao_' + rede + '_opcao' + str(i) + '.png')
 
-resultao_total.to_csv('Resultado_total.csv', sep=';')
-resultao_comunicacao.to_csv('resultao_comunicacao.csv', sep=';')
+
+# resultao_total.to_csv('Resultado_total.csv', sep=';')
+# resultao_comunicacao.to_csv('resultao_comunicacao.csv', sep=';')
