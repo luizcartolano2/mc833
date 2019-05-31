@@ -7,6 +7,8 @@ import java.rmi.RemoteException;
 
 import javax.swing.JOptionPane;
 
+import java.util.Scanner;
+
 import com.company.RMIInterface;
 
 public class Client {
@@ -17,12 +19,64 @@ public class Client {
             throws MalformedURLException, RemoteException, NotBoundException {
 
 //        look_up = (RMIInterface) Naming.lookup("//localhost/MyServer");
-        String txt = JOptionPane.showInputDialog("What is your name?");
+        Scanner scanner = new Scanner(System.in);
 
+        // show operations
+        System.out.print("(1) listar todas as pessoas formadas em um determinado curso\n(2) listar as habilidades dos perfis que moram em uma determinada cidade;\n(3) acrescentar uma nova experiência em um perfil;\n(4) dado o email do perfil, retornar sua experiência;\n(5) listar todas as informações de todos os perfis;\n(6) dado o email de um perfil, retornar suas informações.\n");
+
+        String serverRequest = "0";
+        try {
+            serverRequest = scanner.nextLine();
+        } catch (Exception e) {
+            System.out.println("Exiting...");
+            System.exit(1);
+        }
+
+        if (Integer.parseInt(serverRequest) < 1 || Integer.parseInt(serverRequest) > 6) {
+            System.out.println("Invalid Operation, exiting...");
+            System.exit(1);
+        }
+
+        String message_to_send;
+
+        if (Integer.parseInt(serverRequest) != 5){
+            if (Integer.parseInt(serverRequest) == 1) {
+                System.out.println("Qual curso você deseja ver as pessoas formadas?");
+                message_to_send = scanner.nextLine();
+                serverRequest = serverRequest.concat("&").concat(message_to_send).concat("&");
+            }
+            else if (Integer.parseInt(serverRequest) == 2) {
+                System.out.println("Qual cidade você deseja ver as habilidades?");
+                message_to_send = scanner.nextLine();
+                serverRequest = serverRequest.concat("&").concat(message_to_send).concat("&");
+            }
+            else if (Integer.parseInt(serverRequest) == 3) {
+                System.out.println("Em que perfil iremos acrescentar experiência (email)?");
+                message_to_send = scanner.nextLine();
+                System.out.println("Qual experiência você deseja acrescentar?");
+                String temp2 = scanner.nextLine();
+                serverRequest = serverRequest.concat("&").concat(message_to_send).concat("&").concat(temp2).concat("&");
+            }
+            else if (Integer.parseInt(serverRequest) == 4) {
+                System.out.println("Qual perfil você deseja ver as experiencias (email)?");
+                message_to_send = scanner.nextLine();
+                serverRequest = serverRequest.concat("&").concat(message_to_send).concat("&");
+            }
+            else
+            {
+                System.out.println("Qual perfil você deseja ver as informacoes (email)?");
+                message_to_send = scanner.nextLine();
+                serverRequest = serverRequest.concat("&").concat(message_to_send).concat("&");
+            }
+        } else {
+            serverRequest = serverRequest.concat("&");
+        }
+
+        System.out.println("Operação solicitada ao servidor: " + serverRequest);
 
         System.exit(0);
-        String response = look_up.handleOperation(txt);
-        JOptionPane.showMessageDialog(null, response);
+//        String response = look_up.handleOperation(txt);
+//        JOptionPane.showMessageDialog(null, response);
 
     }
 
