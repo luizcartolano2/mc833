@@ -19,6 +19,128 @@ public class Server extends UnicastRemoteObject implements RMIInterface{
 
     }
 
+    private static String retorna_formandos_curso(String[][] db, String curso) {
+        String resposta = "";
+        Boolean encontrou = Boolean.FALSE;
+
+        for(int i = 0; i < db.length; i++) {
+            if (db[i][4].equals(curso)) {
+                encontrou = Boolean.TRUE;
+                resposta = resposta.concat(db[i][1]).concat(" ").concat(db[i][2]).concat("\n");
+            }
+        }
+
+        if (encontrou) {
+            return resposta;
+        } else {
+            return "Curso não encontrado!";
+        }
+
+    }
+
+    private static String retorna_habilidades_cidade(String[][] db, String cidade) {
+        String resposta = "";
+        Boolean encontrou = Boolean.FALSE;
+
+        for(int i = 0; i < db.length; i++) {
+            if (db[i][3].equals(cidade)) {
+                encontrou = Boolean.TRUE;
+                resposta = resposta.concat(db[i][5]).concat("\n");
+            }
+        }
+
+        if (encontrou) {
+            return resposta;
+        } else {
+            return "Cidade não encontrado!";
+        }
+
+    }
+
+    private static String acrescenta_experiencia_perfil(String db[][], String email, String experiencia) {
+        Boolean encontrou = Boolean.FALSE;
+
+        for(int i = 0; i < db.length; i++) {
+            if (db[i][0].equals(email)) {
+                encontrou = Boolean.TRUE;
+                db[i][6] =  Integer.toString(Integer.parseInt(db[i][6]) + 1);
+                db[i][7] = db[i][7].concat(experiencia).concat("&");
+            }
+        }
+
+        if (encontrou) {
+            return "Operação bem sucedida!";
+        } else {
+            return "Operação não realizada";
+        }
+
+    }
+
+    private static String retorna_experiencia_perfil(String[][] db, String email) {
+        String resposta = "";
+        Boolean encontrou = Boolean.FALSE;
+
+        for(int i = 0; i < db.length; i++) {
+            if (db[i][0].equals(email)) {
+                encontrou = Boolean.TRUE;
+                String[] parts = db[i][7].split("&");
+                for (int k = 0; k < parts.length; k++) {
+                    resposta = resposta.concat(parts[k]).concat("\n");
+                }
+            }
+        }
+
+        if (encontrou) {
+            return resposta;
+        } else {
+            return "Perfil não encontrado!";
+        }
+
+    }
+
+    private static String retorna_perfil(String db[][], String email) {
+
+        Boolean encontrou = Boolean.FALSE;
+        String resposta = "";
+        for(int i = 0; i < db.length; i++) {
+            if (db[i][0].equals(email)) {
+                encontrou = Boolean.TRUE;
+                resposta = resposta.concat("Email: ").concat(db[i][0]).concat("\n");
+                resposta = resposta.concat("Nome: ").concat(db[i][1]).concat(" ").concat(db[i][2]).concat("\n");
+                resposta = resposta.concat("Cidade: ").concat(db[i][3]).concat("\n");
+                resposta = resposta.concat("Curso: ").concat(db[i][4]).concat("\n");
+                resposta = resposta.concat("Habilidades: ").concat(db[i][5]).concat("\n");
+                String[] parts = db[i][7].split("&");
+                for (int k = 0; k < parts.length; k++) {
+                    resposta = resposta.concat("Experiência " + Integer.toString(k+1) + ": ").concat(parts[k]).concat("\n");
+                }
+                resposta = resposta.concat("---------------------------------------------------------------------------------------------------------------------------------\n");
+            }
+        }
+
+        if (encontrou) {
+            return resposta;
+        } else {
+            return "Perfil não encontrado!";
+        }
+
+    }
+
+    private static String retorna_perfis(String db[][]) {
+        Boolean encontrou = Boolean.FALSE;
+        String resposta = "";
+        for (int i = 0; i < db.length; i++) {
+            encontrou = Boolean.TRUE;
+            resposta = resposta.concat(retorna_perfil(db, db[i][0]));
+        }
+
+        if (encontrou) {
+            return resposta;
+        } else {
+            return "Não existem perfis!";
+        }
+    }
+
     private static String[][] read_db() {
         BufferedReader reader;
         String [][] db = new String[5][8];
@@ -115,24 +237,46 @@ public class Server extends UnicastRemoteObject implements RMIInterface{
             System.exit(1);
         }
 
-        return "Server says hello to " + message;
+        String resposta = "";
+        switch (operation) {
+            case 1:
+                resposta = resposta.concat(retorna_formandos_curso(db, message));
+                break;
+            case 2:
+                resposta = resposta.concat(retorna_habilidades_cidade(db, message));
+                break;
+            case 3:
+                resposta = resposta.concat(acrescenta_experiencia_perfil(db, message, message2));
+                break;
+            case 4:
+                resposta = resposta.concat(retorna_experiencia_perfil(db, message));
+                break;
+            case 5:
+                resposta = resposta.concat(retorna_perfis(db));
+                break;
+            case 6:
+                resposta = resposta.concat(retorna_perfil(db, message));
+                break;
+        }
+
+        return resposta;
 
     }
 
     public static void main(String[] args){
 
-        try {
+        while (Boolean.TRUE) {
+            try {
+                Naming.rebind("//localhost/MyServer", new Server());
+                System.err.println("Server ready");
 
-            Naming.rebind("//localhost/MyServer", new Server());
-            System.err.println("Server ready");
+            } catch (Exception e) {
 
-        } catch (Exception e) {
+                System.err.println("Server exception: " + e.toString());
+                e.printStackTrace();
 
-            System.err.println("Server exception: " + e.toString());
-            e.printStackTrace();
-
+            }
         }
-
     }
 
 }
