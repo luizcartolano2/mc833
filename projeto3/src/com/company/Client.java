@@ -188,6 +188,21 @@ public class Client {
 
     }
 
+    private static String retorna_perfis(String db[][]) {
+        Boolean encontrou = Boolean.FALSE;
+        String resposta = "";
+        for (int i = 0; i < db.length; i++) {
+            encontrou = Boolean.TRUE;
+            resposta = resposta.concat(retorna_perfil(db, db[i][0]));
+        }
+
+        if (encontrou) {
+            return resposta;
+        } else {
+            return "Não existem perfis!";
+        }
+    }
+
     public static void main(String[] args)
             throws MalformedURLException, RemoteException, NotBoundException {
 
@@ -195,7 +210,7 @@ public class Client {
 
         String [][] db = read_db();
 
-        System.out.println(retorna_perfil(db, "maria_silva@gmail.com"));
+        System.out.println(retorna_perfis(db));
 
         try {
             writeFile(db);
