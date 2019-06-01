@@ -138,6 +138,56 @@ public class Client {
 
     }
 
+    private static String retorna_experiencia_perfil(String[][] db, String email) {
+        String resposta = "";
+        Boolean encontrou = Boolean.FALSE;
+
+        for(int i = 0; i < db.length; i++) {
+            if (db[i][0].equals(email)) {
+                encontrou = Boolean.TRUE;
+                String[] parts = db[i][7].split("&");
+                for (int k = 0; k < parts.length; k++) {
+                    resposta = resposta.concat(parts[k]).concat("\n");
+                }
+            }
+        }
+
+        if (encontrou) {
+            return resposta;
+        } else {
+            return "Perfil não encontrado!";
+        }
+
+    }
+
+    private static String retorna_perfil(String db[][], String email) {
+
+        Boolean encontrou = Boolean.FALSE;
+        String resposta = "";
+        for(int i = 0; i < db.length; i++) {
+            if (db[i][0].equals(email)) {
+                encontrou = Boolean.TRUE;
+                resposta = resposta.concat("Email: ").concat(db[i][0]).concat("\n");
+                resposta = resposta.concat("Nome: ").concat(db[i][1]).concat(" ").concat(db[i][2]).concat("\n");
+                resposta = resposta.concat("Cidade: ").concat(db[i][3]).concat("\n");
+                resposta = resposta.concat("Curso: ").concat(db[i][4]).concat("\n");
+                resposta = resposta.concat("Habilidades: ").concat(db[i][5]).concat("\n");
+                String[] parts = db[i][7].split("&");
+                for (int k = 0; k < parts.length; k++) {
+                    resposta = resposta.concat("Experiência " + Integer.toString(k+1) + ": ").concat(parts[k]).concat("\n");
+                }
+                resposta = resposta.concat("---------------------------------------------------------------------------------------------------------------------------------\n");
+            }
+        }
+
+        if (encontrou) {
+            return resposta;
+        } else {
+            return "Perfil não encontrado!";
+        }
+
+    }
+
     public static void main(String[] args)
             throws MalformedURLException, RemoteException, NotBoundException {
 
@@ -145,7 +195,7 @@ public class Client {
 
         String [][] db = read_db();
 
-        System.out.println(acrescenta_experiencia_perfil(db, "maria_silva@gmail.com", "teste"));
+        System.out.println(retorna_perfil(db, "maria_silva@gmail.com"));
 
         try {
             writeFile(db);
