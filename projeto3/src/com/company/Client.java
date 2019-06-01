@@ -119,6 +119,25 @@ public class Client {
 
     }
 
+    private static String acrescenta_experiencia_perfil(String db[][], String email, String experiencia) {
+        Boolean encontrou = Boolean.FALSE;
+
+        for(int i = 0; i < db.length; i++) {
+            if (db[i][0].equals(email)) {
+                encontrou = Boolean.TRUE;
+                db[i][6] =  Integer.toString(Integer.parseInt(db[i][6]) + 1);
+                db[i][7] = db[i][7].concat(experiencia).concat("&");
+            }
+        }
+
+        if (encontrou) {
+            return "Operação bem sucedida!";
+        } else {
+            return "Operação não realizada";
+        }
+
+    }
+
     public static void main(String[] args)
             throws MalformedURLException, RemoteException, NotBoundException {
 
@@ -126,7 +145,7 @@ public class Client {
 
         String [][] db = read_db();
 
-        System.out.println(retorna_habilidades_cidade(db, "Campinas"));
+        System.out.println(acrescenta_experiencia_perfil(db, "maria_silva@gmail.com", "teste"));
 
         try {
             writeFile(db);
