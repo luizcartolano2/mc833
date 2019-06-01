@@ -100,6 +100,25 @@ public class Client {
 
     }
 
+    private static String retorna_habilidades_cidade(String[][] db, String cidade) {
+        String resposta = "";
+        Boolean encontrou = Boolean.FALSE;
+
+        for(int i = 0; i < db.length; i++) {
+            if (db[i][3].equals(cidade)) {
+                encontrou = Boolean.TRUE;
+                resposta = resposta.concat(db[i][5]).concat("\n");
+            }
+        }
+
+        if (encontrou) {
+            return resposta;
+        } else {
+            return "Cidade não encontrado!";
+        }
+
+    }
+
     public static void main(String[] args)
             throws MalformedURLException, RemoteException, NotBoundException {
 
@@ -107,7 +126,7 @@ public class Client {
 
         String [][] db = read_db();
 
-        System.out.println(retorna_formandos_curso(db, "Ciência da Computação"));
+        System.out.println(retorna_habilidades_cidade(db, "Campinas"));
 
         try {
             writeFile(db);
