@@ -80,7 +80,26 @@ public class Client {
 
         fw.close();
     }
-    
+
+    private static String retorna_formandos_curso(String[][] db, String curso) {
+        String resposta = "";
+        Boolean encontrou = Boolean.FALSE;
+
+        for(int i = 0; i < db.length; i++) {
+            if (db[i][4].equals(curso)) {
+                encontrou = Boolean.TRUE;
+                resposta = resposta.concat(db[i][1]).concat(" ").concat(db[i][2]).concat("\n");
+            }
+        }
+
+        if (encontrou) {
+            return resposta;
+        } else {
+            return "Curso não encontrado!";
+        }
+
+    }
+
     public static void main(String[] args)
             throws MalformedURLException, RemoteException, NotBoundException {
 
@@ -88,7 +107,7 @@ public class Client {
 
         String [][] db = read_db();
 
-
+        System.out.println(retorna_formandos_curso(db, "Ciência da Computação"));
 
         try {
             writeFile(db);
