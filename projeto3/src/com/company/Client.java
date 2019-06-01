@@ -1,24 +1,106 @@
 package com.company;
 
 import java.net.MalformedURLException;
-import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 
-import javax.swing.JOptionPane;
-
 import java.util.Scanner;
 
-import com.company.RMIInterface;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.FileWriter;
 
 public class Client {
 
     private static RMIInterface look_up;
 
+    private static String[][] read_db() {
+        BufferedReader reader;
+        String [][] db = new String[5][8];
+        try {
+            reader = new BufferedReader(new FileReader("db.txt"));
+
+            String line = reader.readLine();
+            int count_pessoa = 0;
+            int count_linha = 0;
+
+            while (line != null) {
+                while (count_linha < 8) {
+                    if (count_linha == 6) {
+                        int temp_conta = Integer.parseInt(line);
+                        db[count_pessoa][count_linha] = line;
+                        line = reader.readLine();
+                        count_linha = count_linha + 1;
+                        db[count_pessoa][count_linha] = line;
+                        db[count_pessoa][count_linha] = db[count_pessoa][count_linha].concat("&");
+                        for (int i = 1; i < temp_conta; i++) {
+                            line = reader.readLine();
+                            db[count_pessoa][count_linha] = db[count_pessoa][count_linha].concat(line).concat("&");
+                        }
+                    }
+                    else {
+                        db[count_pessoa][count_linha] = line;
+                        line = reader.readLine();
+                    }
+                    count_linha = count_linha + 1;
+                }
+                line = reader.readLine();
+                count_pessoa = count_pessoa + 1;
+                count_linha =0;
+            }
+
+        } catch (IOException e) {
+            System.out.println("Exiting..." + e);
+            System.exit(1);
+        }
+
+        return db;
+
+    }
+
+    private static void writeFile(String[][] db) throws IOException {
+        FileWriter fw = new FileWriter("db.txt");
+
+
+        for (int i = 0; i < db.length; i++) {
+            for (int j = 0; j < db[i].length; j++) {
+                if (j == 7) {
+                    String[] parts = db[i][j].split("&");
+                    for (int k = 0; k < parts.length; k++) {
+                        fw.write(parts[k]);
+                        fw.write("\n");
+                    }
+                } else {
+                    fw.write(db[i][j]);
+                    fw.write("\n");
+                }
+            }
+        }
+
+        fw.close();
+    }
+    
     public static void main(String[] args)
             throws MalformedURLException, RemoteException, NotBoundException {
 
 //        look_up = (RMIInterface) Naming.lookup("//localhost/MyServer");
+
+        String [][] db = read_db();
+
+
+
+        try {
+            writeFile(db);
+        } catch (IOException e) {
+            System.out.println(e + "Exiting...");
+            System.exit(1);
+        }
+
+
+
+        System.exit(0);
+
         Scanner scanner = new Scanner(System.in);
 
         // show operations
@@ -73,6 +155,7 @@ public class Client {
         }
 
         System.out.println("Operação solicitada ao servidor: " + serverRequest);
+
 
         System.exit(0);
 //        String response = look_up.handleOperation(txt);
