@@ -1,19 +1,18 @@
-package com.company;
-
-import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.FileWriter;
 
-public class Server extends UnicastRemoteObject implements RMIInterface{
+public class Server implements RMIInterface{
 
     private static final long serialVersionUID = 1L;
 
-    protected Server() throws RemoteException {
+    public Server() {
 
         super();
 
@@ -265,18 +264,26 @@ public class Server extends UnicastRemoteObject implements RMIInterface{
 
     public static void main(String[] args){
 
-        while (Boolean.TRUE) {
-            try {
-                Naming.rebind("//localhost/MyServer", new Server());
-                System.err.println("Server ready");
+        System.setProperty("java.security.policy","file:./policy_file.policy");
 
-            } catch (Exception e) {
-
-                System.err.println("Server exception: " + e.toString());
-                e.printStackTrace();
-
-            }
+        if (System.getSecurityManager() == null) {
+            System.setSecurityManager(new SecurityManager());
         }
+
+        try {
+            Server obj = new Server();
+            RMIInterface stub = (RMIInterface) UnicastRemoteObject.exportObject(obj, 0);
+
+            // Bind the remote object's stub in the registry
+            Registry registry = LocateRegistry.getRegistry();
+            registry.rebind("RMIInterface", stub);
+
+            System.err.println("Server ready");
+        } catch (Exception e) {
+            System.err.println("Server exception: " + e.toString());
+            e.printStackTrace();
+        }
+
     }
 
 }
