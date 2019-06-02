@@ -264,7 +264,7 @@ public class Server implements RMIInterface{
 
     public static void main(String[] args){
 
-        System.setProperty("java.security.policy","file:./policy_file.policy");
+        System.setProperty("java.security.policy","file:./server.policy");
 
         if (System.getSecurityManager() == null) {
             System.setSecurityManager(new SecurityManager());
@@ -278,7 +278,7 @@ public class Server implements RMIInterface{
             Registry registry = LocateRegistry.getRegistry();
             registry.rebind("RMIInterface", stub);
 
-            System.err.println("Server ready");
+            System.out.println("Server ready");
         } catch (Exception e) {
             System.err.println("Server exception: " + e.toString());
             e.printStackTrace();
